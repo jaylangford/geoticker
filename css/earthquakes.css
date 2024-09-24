@@ -1,0 +1,243 @@
+/* Light theme colors */
+body.light-theme {
+  --text-for-light: #313541;
+  --bkg-for-light: #f2f0f2;
+  --box-for-light: lightgrey;
+}
+
+/* Dark theme colors */
+body.dark-theme {
+  --text-for-dark: #eee;
+  --bkg-for-dark: #06101c;
+  --box-for-dark: #364c67;
+}
+
+/* Styles for users who prefer dark mode at the OS level */
+@media (prefers-color-scheme: dark) {
+  /* defaults to dark theme */
+  body {
+    --text-color: var(--text-for-dark);
+    --bkg-color: var(--bkg-for-dark);
+    --box-color: var(--box-for-dark);
+  }
+  /* Override dark mode with light mode styles if the user decides to swap */
+  body.light-theme {
+    --text-color: var(--text-for-light);
+    --bkg-color: var(--bkg-for-light);
+    --box-color: var(--box-for-light);
+  }
+}
+
+nav {
+  margin: 1rem;
+  display: flex;
+  margin-bottom: 0;
+}
+
+nav h1 {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+  margin-bottom: 0;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.about {
+  max-width: fit-content;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-top: 1rem;
+  margin-left: 2rem;
+}
+
+.back {
+  max-width: fit-content;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-top: 0.75rem;
+  margin-left: 1.75rem;
+}
+
+.title {
+  min-width: 100%;
+}
+
+#theme-button {
+  max-width: fit-content;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 1rem;
+  margin-right: 1rem;
+}
+
+svg {
+  display: block;
+  top: 0;
+  z-index: 200;
+  margin-top: 1rem;
+  margin-right: 1rem;
+}
+
+#moon-icon {
+  position: absolute;
+  top: 0;
+}
+
+.container {
+  width: 45%;
+  margin-inline: auto;
+  min-height: 100%;
+}
+
+body {
+  /* text-align: center; */
+  margin: 0px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  display: flex;
+  color: var(--text-color);
+  background-color: var(--bkg-color);
+  font-family: "Helvetica", "Arial", sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: var(width);
+  margin: auto;
+  padding: 0;
+  border: none;
+}
+
+#feed p {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 7px;
+  padding: 0.5rem;
+  border: 0.2rem solid var(--box-color);
+  background-color: var(--box-color);
+  cursor: pointer;
+  font-size: 1.5rem;
+  margin: 0.75rem;
+}
+
+#feed .highlight {
+  border-color: red;
+}
+
+footer {
+  display: flex;
+  position: relative;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+  margin-bottom: 1rem;
+}
+
+#disclaimer {
+  max-width: 50%;
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+#disclaimer a {
+  text-decoration: underline;
+}
+
+#disclaimer a:link {
+  color: #0107c7;
+}
+
+#disclaimer a:visited {
+  color: #6500c3;
+  color: #0107c7;
+}
+
+#disclaimer h2 {
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#disclaimer::backdrop {
+  background-color: #06101c;
+}
+
+#disclaimer button#disclaimer-button {
+  font-size: 1.5rem;
+}
+
+.about-wrapper {
+  width: 50%;
+  font-size: 1.5rem;
+  line-height: 2.5rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about-wrapper a {
+  text-decoration: underline;
+}
+
+/* Mobile */
+
+/* TODO: Change to "max-width" after I have gotten it looking right on mobile */
+@media only screen and (max-device-width: 768px) {
+  .container {
+    width: 90%;
+  }
+
+  #feed p {
+    font-size: 2.5rem;
+  }
+
+  nav h1 {
+    font-size: 3rem;
+  }
+
+  svg {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  nav .about h1 {
+    font-size: 4.25rem;
+    margin-top: 0.3rem;
+  }
+
+  nav .back h1 {
+    margin-top: 0.6rem;
+  }
+
+  .about-wrapper {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .about-wrapper p {
+    margin-top: 3rem;
+    line-height: 4rem;
+  }
+
+  #disclaimer {
+    font-size: 3rem;
+    line-height: 4rem;
+    max-width: 80%;
+  }
+
+  #disclaimer button#disclaimer-button {
+    font-size: 3rem;
+  }
+}
