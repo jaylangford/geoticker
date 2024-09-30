@@ -192,18 +192,18 @@
     window.removeEventListener(evt.type, loadCanvas, false);
     // Set up canvas. Connect to websocket. Enable mouse tracking.
 
-    const canvas = document.getElementById("canvas");
+    const canvas = document.getElementById("globe");
     const ctx = canvas.getContext("2d");
     const ws = new WebSocket("wss://geoticker.org/ws");
 
-    var mouse_x_delta = 0;
-    var prev_mouse_pos = [0, 0];
-    var mouse_pos = [0, 0];
-    var feed = this.document.getElementById("feed");
+    let mouse_x_delta = 0;
+    let prev_mouse_pos = [0, 0];
+    let mouse_pos = [0, 0];
+    let feed = this.document.getElementById("feed");
 
     // Track if the mouse is clicked in the canvas
 
-    var mouseIsDown = false;
+    let mouseIsDown = false;
     canvas.addEventListener("mousedown", function () {
       mouseIsDown = true;
     });
@@ -220,7 +220,10 @@
           globe.quakes,
           globe.offset_x,
           globe.diameter,
-          "#78e7fb"
+          //"#78e7fb"
+          //"#3188df"
+          //"#3f8cd9"
+          "#4585c6"
         );
 
         if (globe.highlighted_quake !== undefined) {
@@ -271,7 +274,7 @@
     }, 1000 / 60);
 
     ws.addEventListener("message", (event) => {
-      var quake;
+      let quake;
       const message = JSON.parse(event.data);
 
       if (message.cache_sent === "true") {
@@ -309,7 +312,7 @@
 
     this.window.onmousemove = (event) => {
       // Track mouse drags.
-      var rect = canvas.getBoundingClientRect();
+      let rect = canvas.getBoundingClientRect();
       prev_mouse_pos = mouse_pos;
       mouse_pos = getMousePos(rect, event, globe.diameter);
       mouse_x_delta = mouse_pos[0] - prev_mouse_pos[0];
@@ -321,7 +324,7 @@
 
   filterQuake = function (quake) {
     // Filter by earthquake data type and age.
-    var now = new Date();
+    let now = new Date();
     const hour = 3600000;
     const quake_time = new Date(Date.parse(quake.data.properties.time));
 
@@ -343,10 +346,10 @@
     feed.innerHTML = "";
 
     globe.quakes.map((quake, index, self) => {
-      var quake_item = document.createElement("p");
-      var quake_region = quake["data"]["properties"]["flynn_region"];
-      var quake_magnitude = quake.data.properties.mag;
-      var quake_time = new Date(Date.parse(quake.data.properties.time));
+      let quake_item = document.createElement("p");
+      let quake_region = quake["data"]["properties"]["flynn_region"];
+      let quake_magnitude = quake.data.properties.mag;
+      let quake_time = new Date(Date.parse(quake.data.properties.time));
       const time_options = {
         //month: "long",
         //day: "numeric",
@@ -355,7 +358,7 @@
         timeZoneName: "short",
       };
 
-      var quake_string = `${quake_region} | Mag. ${quake_magnitude} | ${quake_time.toLocaleTimeString(undefined, time_options)}`;
+      let quake_string = `${quake_region} | Mag. ${quake_magnitude} | ${quake_time.toLocaleTimeString(undefined, time_options)}`;
 
       quake_item.textContent = quake_string;
       quake_item.id = index;
@@ -397,7 +400,7 @@
   }
 
   drawQuakes = function (ctx, quakes, offset_x, diameter, style) {
-    var points = quakes.map((quake) => {
+    let points = quakes.map((quake) => {
       const lat = quake["data"]["properties"]["lat"];
       const lon = quake["data"]["properties"]["lon"];
 
@@ -413,9 +416,14 @@
     points.map((point) => {
       ctx.beginPath();
       ctx.moveTo(point[0], -point[1]);
-      ctx.arc(point[0], -point[1], diameter / 80, 0, Math.PI * 2, false);
+      ctx.arc(point[0], -point[1], diameter / 60, 0, Math.PI * 2, false);
       ctx.fillStyle = style;
       ctx.fill();
+      ctx.beginPath();
+      ctx.arc(point[0], -point[1], diameter / 60, 0, Math.PI * 2, false);
+      ctx.fillStyle = "black";
+      ctx.lineWidth = 4.5;
+      ctx.stroke();
     });
   };
 
@@ -456,7 +464,7 @@
   };
 
   drawGlobe = function (canvas, offset_x, diameter) {
-    var features;
+    let features;
 
     // Make the canvas a little bigger than the globe so that earthquake markers are not cut off when on the equator.
     canvas.width = diameter * 1.1;
@@ -479,7 +487,7 @@
       ctx.fill();
 
       features = DATA.features.map((feature) => {
-        var points = feature.geometry.coordinates[0];
+        let points = feature.geometry.coordinates[0];
         return points;
       });
 
@@ -505,7 +513,7 @@
 
   rotatePoints = function (points, delta_x) {
     rotated_points = points.map((point) => {
-      var rotated_point = Array();
+      let rotated_point = Array();
 
       rotated_point[0] = point[0] + delta_x;
       rotated_point[1] = point[1];
@@ -582,7 +590,7 @@
 
   cartToAngle = function (x, y) {
     // Convert cartesian coordinates to an angle starting at the positive X axis.
-    var angle = 0;
+    let angle = 0;
 
     if (0 < x && 0 < y) {
       angle = Math.atan(y / x);

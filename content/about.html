@@ -1,17 +1,17 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>GeoTicker</title>
+    <title>About GeoTicker</title>
     <link href="/css/earthquakes.css" rel="stylesheet" />
-    <script type="text/javascript" src="/data/land.geojson"></script>
     <script src="/js/earthquakes.js"></script>
   </head>
-
   <body class="dark-theme">
     <nav>
-      <div class="about" alt="about this webpage"><h1><a href="/about.html">?</a></h1></div>
+      <div class="back" alt="return to live earthquake feed">
+        <h1><a href="/">&#11013;</a></h1>
+      </div>
       <div class="title">
-      <h1><a href="/index.html">GeoTicker</a></h1>
+        <h1><a href="/">GeoTicker</a></h1>
       </div>
       <div id="theme-button">
         <svg
@@ -235,29 +235,34 @@
       </div>
     </nav>
     <main>
-      <div class="container">
-        <canvas id="canvas"></canvas>
-        <div id="feed"></div>
+      <div class="about-wrapper">
+        <p>
+          GeoTicker is a real-time visualization of earthquakes as
+          they are reported by various authorities through the world. It was
+          created by
+          <a href="https://jaylangford.net">Jay Langford</a>. You can reach out
+          at geoticker@jaylangford.net.
+        </p>
+        <p>
+          Real-time earthquake data are provided by the
+          <a href="https://www.emsc-csem.org/">Euro-Mediterranean Seismological Centre</a> through
+          their
+          <a href="https://www.seismicportal.eu/">SeismicPortal</a> service.
+          These data are under the
+          <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>
+          license. Thanks to the
+          <a href="https://www.epos-eu.org/">European Plate Observing System</a>
+          for their
+          <a href="https://www.epos-eu.org/dataportal">DataPortal</a> service,
+          which was useful for data discovery during this project.
+        </p>
+        <p>
+          Geographic data are from
+          <a href="https://www.naturalearthdata.com/">Natural Earth</a>, made
+          available in GeoJSON format by
+          <a href="https://geojson.xyz/">geojson.xyz</a>.
+        </p>
       </div>
     </main>
-    <footer>&copy; Jay Langford – 2024</footer>
-    <dialog
-      id="disclaimer"
-      alt="disclaimer website is not an earthquake warning system"
-    >
-      <h2>DISCLAIMER</h2>
-      <p>
-        This webpage is NOT an earthquake warning system. Data are collected
-        from a large number of providers with no guarantee of accuracy. Those
-        looking for earthquake notifications may refer to the
-        <a href="https://earthquake.usgs.gov/ens/help"
-          >Earthquake Notification Service</a
-        >
-        from the United States Geological Survey (no affiliation).
-      </p>
-      <button id="disclaimer-button" alt="accept disclaimer">
-        I understand and wish to proceed.
-      </button>
-    </dialog>
   </body>
 </html>
