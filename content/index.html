@@ -9,12 +9,15 @@
 
   <body class="dark-theme">
     <nav>
-      <div class="about" alt="about this webpage"><h1><a href="/about">?</a></h1></div>
-      <div class="title">
-      <h1><a href="/">GeoTicker</a></h1>
+      <a href="/about/" id="about">
+      <div class="about" alt="about this webpage">
+        <h1>?</h1>
       </div>
-      <div id="theme-button">
-        <svg
+      </a>
+      <div class="title">
+        <h1><a href="/">GeoTicker</a></h1>
+      </div>
+      <div id="theme-button"> <svg
           width="35"
           height="35"
           viewBox="0 0 100 100"
@@ -237,13 +240,15 @@
       <div class="container">
         <canvas id="globe"></canvas>
         <div id="key">
-          <p>
-          <canvas class="key-item" id="highlighted-quake-key"></canvas>
-          Highlighted
-          <canvas class="key-item" id="normal-quake-key"></canvas>
-          Other
-          Click entries below to change focus.
-          </p>
+          <div class="key-item">
+          <canvas id="highlighted-quake-key"></canvas>
+          </div>
+          <p>Highlighted</p>
+          <div class="key-item">
+          <canvas id="normal-quake-key"></canvas>
+          </div>
+          <p>Other</p>
+          <p>Select items below to change focus.</p>
         </div>
         <div id="feed"></div>
       </div>
