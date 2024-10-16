@@ -200,6 +200,7 @@
     let prev_mouse_pos = [0, 0];
     let mouse_pos = [0, 0];
     let feed = this.document.getElementById("feed");
+    let features;
 
     // Track if the mouse is clicked in the canvas
 
@@ -211,10 +212,26 @@
       mouseIsDown = false;
     });
 
-    // Main animation loop.
-    window.setInterval(() => {
+    // Prepare land data
+
+    features = DATA.features.map((feature) => {
+      let points = feature.geometry.coordinates[0];
+      return points;
+    });
+
+    features = features.map((feature) => degreesToRadians(feature));
+
+    // Make the canvas a little bigger than the globe so that earthquake markers are not cut off when on the equator.
+    canvas.width = globe.diameter * 1.1;
+    canvas.height = globe.diameter * 1.1;
+    // center the origin
+
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+
+    function draw() {
+      ctx.clearRect(-canvas.width/2, -canvas.width/2, canvas.width, canvas.width)
       if (!globe.first_load) {
-        drawGlobe(canvas, globe.offset_x, globe.diameter);
+        drawGlobe(ctx, features, globe.offset_x, globe.diameter);
         drawQuakes(
           ctx,
           globe.quakes,
@@ -271,7 +288,8 @@
         globe.rotating = true;
         globe.rotating_counter = 0;
       }
-    }, 1000 / 60);
+      window.requestAnimationFrame(draw)
+    }
 
     ws.addEventListener("message", (event) => {
       let quake;
@@ -318,6 +336,7 @@
       mouse_x_delta = mouse_pos[0] - prev_mouse_pos[0];
       mouse_x_delta = mouse_x_delta / (rect.width / 2);
     };
+    window.requestAnimationFrame(draw);
   }
 
   window.addEventListener("disclaimer", loadCanvas, false);
@@ -403,11 +422,11 @@
     let points = quakes.map((quake) => {
       const lat = quake["data"]["properties"]["lat"];
       const lon = quake["data"]["properties"]["lon"];
-
-      const [point] = projectPoints([[lon, lat]], offset_x, diameter);
-
-      return point;
+      return [lon, lat];
     });
+
+    points = degreesToRadians(points);
+    points = projectPoints(points, offset_x, diameter);
 
     points = points.filter(function (point) {
       return point !== undefined;
@@ -427,15 +446,17 @@
     });
   };
 
-  projectPoints = function (points, offset_x, diameter) {
-    // Project land features on to a flat circle.
-
-    // Convert to radians
-    // TODO: Make this more efficient by doing this once up front instead of on every frame.
+  degreesToRadians = (points) => {
+    // convert to radians
     points = points.map((point) => [
       (point[0] * Math.PI) / 180,
       (point[1] * Math.PI) / 180,
     ]);
+    return points;
+  };
+
+  projectPoints = function (points, offset_x, diameter) {
+    // Project land features on to a flat circle.
 
     // Rotate according to offset.
     points = rotatePoints(points, offset_x);
@@ -463,51 +484,29 @@
     return points;
   };
 
-  drawGlobe = function (canvas, offset_x, diameter) {
-    let features;
+  drawGlobe = function (ctx, features, offset_x, diameter) {
+    // add ocean
+    ctx.beginPath();
+    ctx.arc(0, 0, globe.diameter / 2, 0, Math.PI * 2);
+    ctx.fillStyle = globe.dark_mode_ocean;
+    ctx.fill();
 
-    // Make the canvas a little bigger than the globe so that earthquake markers are not cut off when on the equator.
-    canvas.width = diameter * 1.1;
-    canvas.height = diameter * 1.1;
+    features = features.map((points) => {
+      return projectPoints(points, globe.offset_x, diameter);
+    });
 
-    if (canvas.getContext) {
-      const ctx = canvas.getContext("2d");
+    features.map((points) => {
+      drawPoints(ctx, diameter, points);
+    });
 
-      // center the origin
-      ctx.translate(canvas.width / 2, canvas.height / 2);
-
-      // add ocean
+    // Add border for light theme.
+    if (getTheme() === "light") {
       ctx.beginPath();
-      ctx.arc(0, 0, diameter / 2, 0, Math.PI * 2);
-      if (globe.colorScheme === "light") {
-        ctx.fillStyle = globe.light_mode_ocean;
-      } else {
-        ctx.fillStyle = globe.dark_mode_ocean;
-      }
-      ctx.fill();
-
-      features = DATA.features.map((feature) => {
-        let points = feature.geometry.coordinates[0];
-        return points;
-      });
-
-      features = features.map((points) => {
-        return projectPoints(points, offset_x, diameter);
-      });
-
-      features.map((points) => {
-        drawPoints(ctx, diameter, points);
-      });
-
-      // Add border for light theme.
-      if (getTheme() === "light") {
-        ctx.beginPath();
-        ctx.lineWidth = 1.5;
-        ctx.arc(0, 0, diameter / 2, 0, Math.PI * 2, false);
-        //ctx.fillStyle = globe.light_mode_ocean;
-        ctx.fillStyle = globe.light_mode_ocean;
-        ctx.stroke();
-      }
+      ctx.lineWidth = 1.5;
+      ctx.arc(0, 0, diameter / 2, 0, Math.PI * 2, false);
+      //ctx.fillStyle = globe.light_mode_ocean;
+      ctx.fillStyle = globe.light_mode_ocean;
+      ctx.stroke();
     }
   };
 
