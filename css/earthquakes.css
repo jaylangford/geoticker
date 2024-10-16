@@ -1,3 +1,48 @@
+/* CSS Reset */
+
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  /* set relative sizing to go off of the border box, not the content box. explanation: https://www.joshwcomeau.com/css/custom-css-reset/ */
+  box-sizing: inherit;
+}
+
+* {
+  /* remove default margin */
+  margin: 0;
+  /* remove default padding */
+  padding: 0;
+}
+
+body {
+  /* disable subpixel antialiasing on macs https://www.joshwcomeau.com/css/custom-css-reset/#four-font-smoothing-5 */
+  -webkit-font-smoothing: antialiased;
+}
+
+img, picture, video, canvas, svg {
+  /* convert media elements from inline to block */
+  display: block;
+  /* prevent media elements from spilling out of container */
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  /* prevent input areas from having their own separate style */
+  font: inherit;
+}
+
+a {
+color: inherit;
+}
+
+h1,h2,h3,h4,h5,h6 { font-size:100%; font-weight:normal; }
+
+/* stop browsers from adding quotes around quote elements */
+q:before,q:after { content:''; }
+
+/* ------------ */
+
 /* Light theme colors */
 body.light-theme {
   --text-for-light: #313541;
