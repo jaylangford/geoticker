@@ -101,12 +101,12 @@
     const moonIcon = this.document.getElementById("moon-icon");
     if (theme === "dark") {
       this.document.body.setAttribute("class", "dark-theme");
-      moonIcon.setAttribute("visibility", "hidden");
-      sunIcon.setAttribute("visibility", "visible");
+      moonIcon.setAttribute("style", "display:none;");
+      sunIcon.setAttribute("style", "");
     } else if (theme === "light") {
       this.document.body.setAttribute("class", "light-theme");
-      sunIcon.setAttribute("visibility", "hidden");
-      moonIcon.setAttribute("visibility", "visible");
+      sunIcon.setAttribute("style", "display:none;");
+      moonIcon.setAttribute("style", "");
     } else {
       console.error("Theme must be 'light' or 'dark'");
     }
