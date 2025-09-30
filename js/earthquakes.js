@@ -214,11 +214,34 @@
     // Track if the mouse is clicked in the canvas
 
     let mouseIsDown = false;
-    canvas.addEventListener("mousedown", function () {
+    canvas.addEventListener("mousedown", function (event) {
       mouseIsDown = true;
+      // Initialize position to prevent jump on first interaction
+      let rect = canvas.getBoundingClientRect();
+      mouse_pos = getMousePos(rect, event);
+      prev_mouse_pos = mouse_pos;
     });
     window.addEventListener("mouseup", function () {
       mouseIsDown = false;
+    });
+
+    // Track touch interactions for mobile
+    let touchIsDown = false;
+    canvas.addEventListener("touchstart", function (event) {
+      touchIsDown = true;
+      // Prevent default to avoid scrolling the page
+      event.preventDefault();
+      // Initialize position to prevent jump on first interaction
+      let rect = canvas.getBoundingClientRect();
+      const touch = event.touches[0];
+      mouse_pos = getTouchPos(rect, touch);
+      prev_mouse_pos = mouse_pos;
+    });
+    window.addEventListener("touchend", function () {
+      touchIsDown = false;
+    });
+    window.addEventListener("touchcancel", function () {
+      touchIsDown = false;
     });
 
     // Prepare land data
@@ -263,7 +286,7 @@
         }
       }
 
-      if (mouseIsDown) {
+      if (mouseIsDown || touchIsDown) {
         globe.rotating = false;
         globe.rotating_counter = 0;
         globe.rotate(mouse_x_delta);
@@ -345,6 +368,23 @@
       mouse_x_delta = mouse_pos[0] - prev_mouse_pos[0];
       mouse_x_delta = mouse_x_delta / (rect.width / 2);
     };
+
+    // Track touch movements for mobile
+    window.addEventListener("touchmove", (event) => {
+      if (touchIsDown) {
+        // Prevent default to avoid scrolling the page
+        event.preventDefault();
+
+        let rect = canvas.getBoundingClientRect();
+        prev_mouse_pos = mouse_pos;
+
+        // Use first touch point
+        const touch = event.touches[0];
+        mouse_pos = getTouchPos(rect, touch);
+        mouse_x_delta = mouse_pos[0] - prev_mouse_pos[0];
+        mouse_x_delta = mouse_x_delta / (rect.width / 2);
+      }
+    }, { passive: false });
     window.requestAnimationFrame(draw);
   }
 
@@ -436,6 +476,13 @@
     return [
       evt.clientX - rect.left - rect.width / 2,
       evt.clientY - rect.top - rect.height / 2,
+    ];
+  }
+
+  function getTouchPos(rect, touch) {
+    return [
+      touch.clientX - rect.left - rect.width / 2,
+      touch.clientY - rect.top - rect.height / 2,
     ];
   }
 
