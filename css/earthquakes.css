@@ -277,9 +277,10 @@ footer {
 }
 
 .about-wrapper {
-  width: 45rem;
-  font-size: 1.5rem;
-  line-height: 2.5rem;
+  width: 45%;
+  min-width: 40rem;
+  font-size: 2rem;
+  line-height: 3rem;
   margin-top: 1rem;
   margin-left: auto;
   margin-right: auto;
@@ -319,14 +320,15 @@ footer {
 
   .about-wrapper, nav {
     width: 90%;
+    min-width: unset;
     margin-left: auto;
     margin-right: auto;
   }
 
   .about-wrapper p {
-    font-size: 3rem;
+    font-size: 3.5rem;
     margin-top: 3rem;
-    line-height: 4.5rem;
+    line-height: 1.5em;
   }
 
   #disclaimer {
