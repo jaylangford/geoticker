@@ -350,4 +350,26 @@ footer {
   #disclaimer button#disclaimer-button {
     font-size: 3rem;
   }
+
+  footer {
+    font-size: 2rem;
+  }
+
+  #key {
+    font-size: 2.5rem;
+    gap: 1rem;
+    margin: 2rem;
+  }
+
+  .key-item canvas {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .about {
+    font-size: 3rem;
+    width: 4rem;
+    height: 4rem;
+    border-width: 0.2rem;
+  }
 }

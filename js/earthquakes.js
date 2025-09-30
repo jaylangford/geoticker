@@ -444,16 +444,22 @@
       return point !== undefined;
     });
 
+    // Scale markers for mobile devices (match CSS media query)
+    const isMobile = window.screen.width <= 768 || window.innerWidth <= 768;
+    const markerScale = isMobile ? 2.25 : 1;
+    const markerRadius = (diameter / 60) * markerScale;
+    const strokeWidth = isMobile ? 6 : 4.5;
+
     points.map((point) => {
       ctx.beginPath();
       ctx.moveTo(point[0], -point[1]);
-      ctx.arc(point[0], -point[1], diameter / 60, 0, Math.PI * 2, false);
+      ctx.arc(point[0], -point[1], markerRadius, 0, Math.PI * 2, false);
       ctx.fillStyle = style;
       ctx.fill();
       ctx.beginPath();
-      ctx.arc(point[0], -point[1], diameter / 60, 0, Math.PI * 2, false);
+      ctx.arc(point[0], -point[1], markerRadius, 0, Math.PI * 2, false);
       ctx.fillStyle = "black";
-      ctx.lineWidth = 4.5;
+      ctx.lineWidth = strokeWidth;
       ctx.stroke();
     });
   };
