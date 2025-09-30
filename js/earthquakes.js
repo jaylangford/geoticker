@@ -381,6 +381,9 @@
 
       quake_item.textContent = quake_string;
       quake_item.id = index;
+      quake_item.tabIndex = 0;
+      quake_item.setAttribute("role", "button");
+      quake_item.setAttribute("aria-label", `Select earthquake: ${quake_string}`);
 
       if (quake === globe.selected_quake) {
         quake_item.className = "highlight";
@@ -388,7 +391,7 @@
 
       feed.insertAdjacentElement("afterbegin", quake_item);
 
-      quake_item.onclick = () => {
+      const selectQuake = () => {
         // unselect previous highlighted quake
         const prev_quake = document.getElementsByClassName("highlight")[0];
         if (prev_quake !== undefined) {
@@ -406,6 +409,15 @@
         globe.highlighted_quake = globe.quakes[quake_item.id];
         globe.selected_quake = globe.quakes[quake_item.id];
         globe.rotateToQuake(quake);
+      };
+
+      quake_item.onclick = selectQuake;
+
+      quake_item.onkeydown = (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          selectQuake();
+        }
       };
     });
   };
