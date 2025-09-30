@@ -105,8 +105,12 @@ nav a#about {
   font-size: 1.5rem;
   border-radius: 50%;
   display: grid;
-  place-content: center;
+  place-items: center;
   border: 0.1rem solid var(--text-color);
+  width: 2rem;
+  height: 2rem;
+  text-align: center;
+  padding-right: 0.04rem
 }
 
 .back {
