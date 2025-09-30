@@ -160,7 +160,7 @@
         setTheme("light");
       }
 
-      themeButton.onclick = () => {
+      const toggleTheme = () => {
         const prev_theme = getTheme();
         // Change theme when theme button clicked. Save preference.
         if (prev_theme === "dark") {
@@ -169,6 +169,15 @@
         } else if (prev_theme === "light") {
           window.localStorage.setItem("themePreference", "dark");
           setTheme("dark");
+        }
+      };
+
+      themeButton.onclick = toggleTheme;
+
+      themeButton.onkeydown = (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          toggleTheme();
         }
       };
     },
