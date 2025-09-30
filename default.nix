@@ -1,9 +1,5 @@
-{
-  nixpkgs ? import (fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/5a09cb4b393d58f9ed0d9ca1555016a8543c2ac8.tar.gz";
-    sha256 = "sha256-RyJTnTNKhO0yqRpDISk03I/4A67/dp96YRxc86YOPgU=";
-  }) { config = {}; overlays = []; },
-  system ? builtins.currentSystem
+{ nixpkgs ? import ./nixpkgs.default.nix { config = {}; overlays = []; },
+  system ? builtins.currentSystem,
 }:
 let
   pkgs = nixpkgs;
